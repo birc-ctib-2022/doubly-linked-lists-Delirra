@@ -102,14 +102,12 @@ def keep(x: DLList[T], p: Callable[[T], bool]) -> None:
     [2, 4]
     """
 
-    if x.head.next.val == None:
-        x.head = x.head.next
-        return
-    if p(x.head.next.val) == False:
-        remove_link(x.head.next)
-    else:
-        x.head = x.head.next
-    keep(x, p)
+    link = x.head.next
+    while link != x.head:
+        n = link.next
+        if not p(link.val):
+            remove_link(link)
+        link = n
 
 # x = DLList([1, 2, 3, 4, 5])
 # keep(x, lambda a: a % 2 == 0)
@@ -126,23 +124,17 @@ def reverse(x: DLList[T]) -> None:
     [5, 4, 3, 2, 1]
     """
 
-    tmp = None
-    current = x.head.next # Initialise on first element of the list
-    prevEle, prevEle.next = x.head, None
-
-    while current is not None:
-        tmp = current.next # Save next element so we can move to it in the next iteration
-        current.next = prevEle # Make current.next link to the previous element of the list
-        prevEle = current # Prepare for next link reversal
-        current = tmp # Move to next element of the list
-
-    x.head = prevEle
+    link = x.head.next
+    while link != x.head:
+        link.prev, link.next = link.next, link.prev
+        link = link.prev
+    x.head.next, x.head.prev = x.head.prev, x.head.next
 
 
+# x = DLList([1, 2, 3, 4, 5])
+# reverse(x)
+# print(x)
 
-x = DLList([1, 2, 3, 4, 5, 6, 7])
-reverse(x)
-print(x)
 
 def sort(x: DLList[S]) -> None:
     """
@@ -154,3 +146,4 @@ def sort(x: DLList[S]) -> None:
     [1, 3, 4, 5, 6, 12]
     """
     ...
+
