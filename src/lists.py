@@ -101,7 +101,17 @@ def keep(x: DLList[T], p: Callable[[T], bool]) -> None:
     >>> print(x)
     [2, 4]
     """
-    ...
+
+    link = x.head.next
+    while link != x.head:
+        n = link.next
+        if not p(link.val):
+            remove_link(link)
+        link = n
+
+# x = DLList([1, 2, 3, 4, 5])
+# keep(x, lambda a: a % 2 == 0)
+# print(x)
 
 
 def reverse(x: DLList[T]) -> None:
@@ -113,7 +123,17 @@ def reverse(x: DLList[T]) -> None:
     >>> print(x)
     [5, 4, 3, 2, 1]
     """
-    ...
+
+    link = x.head.next
+    while link != x.head:
+        link.prev, link.next = link.next, link.prev
+        link = link.prev
+    x.head.next, x.head.prev = x.head.prev, x.head.next
+
+
+# x = DLList([1, 2, 3, 4, 5])
+# reverse(x)
+# print(x)
 
 
 def sort(x: DLList[S]) -> None:
@@ -126,3 +146,4 @@ def sort(x: DLList[S]) -> None:
     [1, 3, 4, 5, 6, 12]
     """
     ...
+
